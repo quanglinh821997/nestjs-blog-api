@@ -25,7 +25,6 @@ import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { storageConfig } from '../helpers/config';
 import { extname } from 'path';
-import e from "express";
 
 @ApiBearerAuth()
 @ApiTags('Users')
@@ -77,8 +76,7 @@ export class UserController {
       storage: storageConfig('avatar'),
       fileFilter: (req, file, cb) => {
         const ext = extname(file.originalname);
-        console.log('ext: ', ext);
-        const allowedExtArr = ['jpg', 'png', 'jpeg'];
+        const allowedExtArr = ['.jpg', '.png', '.jpeg'];
         if (!allowedExtArr.includes(ext)) {
           req.fileValidation = `Wrong extension type. Accepted file ext are: ${allowedExtArr.toString()}`;
           cb(null, false);
@@ -96,10 +94,6 @@ export class UserController {
     }),
   )
   uploadAvatar(@Req() req: any, @UploadedFile() file: Express.Multer.File) {
-    console.log('upload avatar: ');
-    console.log('user data: ', req.user_data);
-    console.log('file: ', file);
-
     if (req.fileValidationError) {
       throw new BadRequestException(req.fileValidationError);
     }
@@ -112,4 +106,3 @@ export class UserController {
     );
   }
 }
-
