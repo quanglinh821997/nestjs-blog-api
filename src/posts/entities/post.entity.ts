@@ -6,6 +6,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { User } from '../../user/entities/user.entity';
+import { Category } from '../../category/entities/category.entity';
 
 @Entity({ name: 'post' })
 export class Posts {
@@ -32,4 +33,7 @@ export class Posts {
 
   @ManyToOne(() => User, (user) => user.posts)
   user: User;
+
+  @ManyToOne(() => Category, (category) => category.posts)
+  category: Category;
 }
